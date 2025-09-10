@@ -2013,6 +2013,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "ripel"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "ripel-core",
+ "ripel-shared",
+ "serde",
+ "serde_json",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "ripel-core"
 version = "0.1.0"
 dependencies = [
