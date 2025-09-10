@@ -1,0 +1,33 @@
+[package]
+name = "ripel-mysql-cdc"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "MySQL Change Data Capture for RIPeL"
+
+[dependencies]
+# Workspace dependencies
+ripel-core = { path = "../ripel-core" }
+ripel-shared = { path = "../ripel-shared" }
+tokio.workspace = true
+tokio-stream.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sqlx.workspace = true
+tracing.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+
+# Additional dependencies for CDC
+# mysql_cdc = "0.2" # Optional - would be used for real binlog parsing
+async-trait = "0.1"
+
+[dev-dependencies]
+mockall.workspace = true
+tokio-test = "0.4"

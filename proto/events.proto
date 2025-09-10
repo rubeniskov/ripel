@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package ripel.events.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+// Core event types for replication and propagation
+service EventService {
+  // Stream events in real-time
+  rpc StreamEvents(StreamEventsRequest) returns (stream Event);
+  
+  // Publish a batch of events
+  rpc PublishEvents(PublishEventsRequest) returns (PublishEventsResponse);
+  
+  // Query events by criteria
+  rpc QueryEvents(QueryEventsRequest) returns (QueryEventsResponse);
+}
+
+// Main event structure
+message Event {
+  // Unique event identifier
+  string id = 1;
+  
+  // Event type/schema version
+  string event_type = 2;
+  
+  // Source system identifier
+  string source = 3;
+  
+  // Event timestamp
+  google.protobuf.Timestamp timestamp = 4;
+  
+  // Event payload
+  google.protobuf.Struct data = 5;
+  
+  // Metadata for routing and processing
+  map<string, string> metadata = 6;
+  
+  // Correlation ID for tracing
+  string correlation_id = 7;
+  
+  // Partition key for consistent routing
+  string partition_key = 8;
+}
+
+// Database change event specific structure
+message DatabaseChangeEvent {
+  Event base_event = 1;
+  
+  // Database operation type
+  OperationType operation = 2;
+  
+  // Database and table information
+  string database = 3;
+  string table = 4;
+  
+  // Before and after data for updates
+  google.protobuf.Struct before = 5;
+  google.protobuf.Struct after = 6;
+  
+  // Transaction information
+  string transaction_id = 7;
+  int64 lsn = 8;  // Log sequence number
+}
+
+enum OperationType {
+  OPERATION_TYPE_UNSPECIFIED = 0;
+  OPERATION_TYPE_INSERT = 1;
+  OPERATION_TYPE_UPDATE = 2;
+  OPERATION_TYPE_DELETE = 3;
+  OPERATION_TYPE_DDL = 4;  // Data Definition Language changes
+}
+
+// Dead Letter Queue event
+message DLQEvent {
+  Event original_event = 1;
+  
+  // Error information
+  string error_message = 2;
+  string error_code = 3;
+  
+  // Processing attempts
+  int32 retry_count = 4;
+  google.protobuf.Timestamp failed_at = 5;
+  
+  // Destination that failed
+  string failed_destination = 6;
+}
+
+// Request/Response messages
+message StreamEventsRequest {
+  // Filter criteria
+  repeated string event_types = 1;
+  repeated string sources = 2;
+  google.protobuf.Timestamp from_timestamp = 3;
+  
+  // Consumer configuration
+  string consumer_group = 4;
+  int32 max_batch_size = 5;
+}
+
+message PublishEventsRequest {
+  repeated Event events = 1;
+  
+  // Publishing options
+  bool ensure_ordered = 2;
+  string destination_topic = 3;
+}
+
+message PublishEventsResponse {
+  // Results per event
+  repeated PublishResult results = 1;
+  
+  // Overall success
+  bool success = 2;
+  string error_message = 3;
+}
+
+message PublishResult {
+  string event_id = 1;
+  bool success = 2;
+  string error_message = 3;
+  
+  // Kafka-specific metadata
+  string topic = 4;
+  int32 partition = 5;
+  int64 offset = 6;
+}
+
+message QueryEventsRequest {
+  // Query parameters
+  repeated string event_types = 1;
+  repeated string sources = 2;
+  google.protobuf.Timestamp from_timestamp = 3;
+  google.protobuf.Timestamp to_timestamp = 4;
+  
+  // Pagination
+  string continuation_token = 5;
+  int32 limit = 6;
+}
+
+message QueryEventsResponse {
+  repeated Event events = 1;
+  string next_continuation_token = 2;
+  bool has_more = 3;
+}
