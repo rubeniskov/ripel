@@ -1,0 +1,34 @@
+[package]
+name = "ripel-kafka"
+version.workspace = true
+authors.workspace = true
+license.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+homepage.workspace = true
+description = "Kafka publishing with DLQ support for RIPeL"
+
+[dependencies]
+# Workspace dependencies
+ripel-core = { path = "../ripel-core" }
+ripel-shared = { path = "../ripel-shared" }
+tokio.workspace = true
+tokio-stream.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+rdkafka.workspace = true
+tracing.workspace = true
+anyhow.workspace = true
+thiserror.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+
+# Additional dependencies
+md5 = "0.7"
+async-trait = "0.1"
+
+[dev-dependencies]
+mockall.workspace = true
+tokio-test = "0.4"
+md5 = "0.7"

@@ -1,0 +1,72 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/ripel-core",
+    "crates/ripel-mysql-cdc", 
+    "crates/ripel-kafka",
+    "crates/ripel-shared",
+]
+
+[workspace.package]
+version = "0.1.0"
+authors = ["RIPeL Contributors"]
+license = "MIT"
+edition = "2021"
+rust-version = "1.70"
+repository = "https://github.com/rubeniskov/ripel"
+homepage = "https://github.com/rubeniskov/ripel"
+
+[workspace.dependencies]
+# Async runtime
+tokio = { version = "1.35", features = ["full"] }
+tokio-stream = "0.1"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Protobuf and gRPC
+prost = "0.12"
+prost-types = "0.12"
+tonic = "0.10"
+tonic-build = "0.10"
+
+# Database
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "mysql", "chrono", "uuid"] }
+
+# Kafka
+rdkafka = { version = "0.36", features = ["cmake-build"] }
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+metrics = "0.22"
+metrics-exporter-prometheus = "0.13"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# Utilities
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0", features = ["v4", "serde"] }
+bytes = "1.5"
+
+# Config
+config = "0.14"
+
+# Testing
+mockall = "0.12"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
+
+[profile.dev]
+debug = true
+opt-level = 0
+
+[profile.bench]
+debug = true
