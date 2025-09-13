@@ -1,0 +1,35 @@
+[package]
+name = "ripel-core"
+description = "core library for the ripel data serialization DSL and runtime"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+categories.workspace = true
+keywords.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+minijinja.workspace = true
+sqlx.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+hex.workspace = true
+once_cell.workspace = true
+anyhow.workspace = true
+regex.workspace = true
+smol_str.workspace = true
+rust_decimal.workspace = true
+time.workspace = true
+ulid.workspace = true
+blake3 = "1.8.2"
+
+[features]
+default = ["jinja", "rust_decimal", "time"]
+jinja = []
+rust_decimal = []
+time = []
+bigdecimal = []

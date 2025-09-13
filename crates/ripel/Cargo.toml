@@ -1,0 +1,22 @@
+[package]
+name = "ripel"
+description = "change data capture data serialization"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+categories.workspace = true
+keywords.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+ripel-core = { workspace = true }
+ripel-derive = { workspace = true, optional = true }
+
+
+[features]
+default = ["derive"]
+derive = ["dep:ripel-derive"]

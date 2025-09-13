@@ -1,0 +1,28 @@
+[package]
+name = "ripel-examples"
+description = "collection of examples for the ripel data serialization DSL and runtime"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+categories.workspace = true
+keywords.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish = false
+
+[[example]]
+name = "querier"
+path = "src/querier/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+minijinja.workspace = true
+tokio.workspace = true
+sqlx.workspace = true
+ulid.workspace = true
+serde.workspace = true
+
+ripel.workspace = true

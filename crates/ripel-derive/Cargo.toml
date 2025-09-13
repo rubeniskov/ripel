@@ -1,0 +1,29 @@
+[package]
+name = "ripel-derive"
+description = "change data capture data serialization derive macros"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+categories.workspace = true
+keywords.workspace = true
+homepage.workspace = true
+repository.workspace = true
+documentation.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[lib]
+proc-macro = true
+
+[dependencies]
+anyhow = { workspace = true }
+proc-macro2 = "1"
+quote = "1"
+syn = { version = "2", features = ["full"] }
+darling = "0.21"
+heck = "0.5.0"
+ripel-core = { workspace = true }
+
+[dev-dependencies]
+prettyplease = "0.2"
+
